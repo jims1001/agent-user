@@ -38,7 +38,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             String jwt = parseJwt(request);
             String jti = jwtUtils.getJtiFromJwtToken(jwt);
-            if (jti == null) {
+            if (jwt == null) {
                 logger.warn("JWT does not contain jti claim.");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Invalid token format");
                 return;

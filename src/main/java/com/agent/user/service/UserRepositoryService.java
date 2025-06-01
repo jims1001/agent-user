@@ -26,7 +26,7 @@ public class UserRepositoryService implements UserDetailsService {
             return null;
         }
         User user = (User) userObj.orElse(null);
-        return new CustomUserDetails(user.getUsername(), user.getUsername(), "", null);
+        return new CustomUserDetails(user.getUsername(), user.getUsername(), user.getPasswordHash(), null);
     }
 
 }

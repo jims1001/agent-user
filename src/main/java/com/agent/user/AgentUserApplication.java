@@ -15,7 +15,6 @@ import org.springframework.context.annotation.ComponentScan;
 @EntityScan("com.agent.user.repository.entitys")
 @SpringBootApplication
 public class AgentUserApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(AgentUserApplication.class, args);
 	}
