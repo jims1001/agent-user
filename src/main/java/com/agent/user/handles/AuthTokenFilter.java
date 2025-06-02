@@ -13,9 +13,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
+import java.util.List;
+
 import org.springframework.lang.NonNull;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
@@ -29,11 +32,39 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
+
+    // Define path patterns that require JWT authentication
+    private static final List<String> JWT_REQUIRED_PATH_PATTERNS = List.of(
+            //  "/user/login"  Without verification
+            "/user/login"
+    );
+
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
     @Override
     protected void doFilterInternal(@NonNull  HttpServletRequest request,
                                     @NonNull  HttpServletResponse response,
                                     @NonNull  FilterChain filterChain)
             throws ServletException, IOException {
+
+
+        String requestUri = request.getRequestURI();
+        boolean shouldPerformJwtValidation = false;
+
+        // 1. Check whether the path requires JWT authentication
+        for (String pattern : JWT_REQUIRED_PATH_PATTERNS) {
+            if (pathMatcher.match(pattern, requestUri)) {
+                shouldPerformJwtValidation = true;
+                break;
+            }
+        }
+
+
+        if (shouldPerformJwtValidation) {
+            // If the current request does not require JWT authentication, allow it to proceed directly.
+            System.out.println("Skipping JWT validation for path: " + requestUri);
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         try {
             String jwt = parseJwt(request);

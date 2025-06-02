@@ -3,6 +3,7 @@ package com.agent.user.config;
 import com.agent.user.handles.AuthEntryPointJwt;
 import com.agent.user.handles.AuthTokenFilter;
 import com.agent.user.service.UserRepositoryService;
+import com.agent.user.utils.NoOpPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,10 +32,10 @@ public class SecurityConfig {
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
-//    @Bean
-//    public AuthTokenFilter authenticationJwtTokenFilter() {
-//        return new AuthTokenFilter();
-//    }
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -44,7 +45,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new NoOpPasswordEncoder();
     }
 
     @Bean
