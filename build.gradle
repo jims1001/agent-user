@@ -34,6 +34,8 @@ dependencies {
 	implementation("io.lettuce:lettuce-core:6.5.5.RELEASE")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
 	implementation("org.springframework.cloud:spring-cloud-starter-config:4.3.0")
+	// https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber
+	implementation("com.googlecode.libphonenumber:libphonenumber:9.0.7")
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
